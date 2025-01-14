@@ -24,6 +24,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 interface TaskFormProps {
   taskId?: string
@@ -74,111 +75,196 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <Label htmlFor="title">Title</Label>
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="space-y-2">
+        <Label htmlFor="title" className="text-sm font-semibold text-gray-700">
+          Task Title
+        </Label>
         <Input
           id="title"
-          placeholder="Task Title"
+          placeholder="Enter task title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
+          className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500"
         />
       </div>
-      <div>
-        <Label htmlFor="description">Description</Label>
+
+      <div className="space-y-2">
+        <Label
+          htmlFor="description"
+          className="text-sm font-semibold text-gray-700"
+        >
+          Description
+        </Label>
         <Textarea
           id="description"
-          placeholder="Task Description"
+          placeholder="Enter task description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+          className="min-h-[100px] w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500"
         />
       </div>
-      <div>
-        <Label htmlFor="assignee">Assignee</Label>
-        <Select
-          value={assignee?.id || ''}
-          onValueChange={(value) =>
-            setAssignee(users.find((user) => user.id === value) || null)
-          }
-        >
-          <SelectTrigger id="assignee">
-            <SelectValue placeholder="Assign to" />
-          </SelectTrigger>
-          <SelectContent>
-            {users.map((user) => (
-              <SelectItem key={user.id} value={user.id}>
-                {user.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-      <div>
-        <Label htmlFor="storyPoints">Story Points</Label>
-        <Input
-          id="storyPoints"
-          type="number"
-          placeholder="Story Points"
-          value={storyPoints}
-          onChange={(e) => setStoryPoints(e.target.value)}
-        />
-      </div>
-      <div>
-        <Label>Start Date</Label>
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              className={cn(
-                'w-full justify-start text-left font-normal',
-                !startDate && 'text-muted-foreground'
-              )}
+
+      <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <Label
+            htmlFor="assignee"
+            className="text-sm font-semibold text-gray-700"
+          >
+            Assignee
+          </Label>
+          <Select
+            value={assignee?.id || ''}
+            onValueChange={(value) =>
+              setAssignee(users.find((user) => user.id === value) || null)
+            }
+          >
+            <SelectTrigger
+              id="assignee"
+              className="w-full border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500"
             >
-              <CalendarIcon className="mr-2 h-4 w-4" />
-              {startDate ? format(startDate, 'PPP') : <span>Pick a date</span>}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" align="start">
-            <Calendar
-              mode="single"
-              selected={startDate}
-              onSelect={setStartDate}
-              initialFocus
-            />
-          </PopoverContent>
-        </Popover>
+              <SelectValue placeholder="Select team member">
+                {assignee && (
+                  <div className="flex items-center gap-2">
+                    <Avatar className="h-6 w-6">
+                      <AvatarImage src={assignee.avatar} alt={assignee.name} />
+                      <AvatarFallback className="bg-blue-100 text-blue-600">
+                        {assignee.name[0]}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex flex-col">
+                      <span className="text-sm font-medium">
+                        {assignee.name}
+                      </span>
+                      <span className="text-xs text-gray-500">
+                        {assignee.role}
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              {users.map((user) => (
+                <SelectItem
+                  key={user.id}
+                  value={user.id}
+                  className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-50"
+                >
+                  <div className="flex items-center gap-2 w-full">
+                    <Avatar className="h-6 w-6">
+                      <AvatarImage src={user.avatar} alt={user.name} />
+                      <AvatarFallback className="bg-blue-100 text-blue-600">
+                        {user.name[0]}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex flex-col">
+                      <span className="text-sm font-medium">{user.name}</span>
+                      <span className="text-xs text-gray-500">{user.role}</span>
+                    </div>
+                  </div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="space-y-2">
+          <Label
+            htmlFor="storyPoints"
+            className="text-sm font-semibold text-gray-700"
+          >
+            Story Points
+          </Label>
+          <Input
+            id="storyPoints"
+            type="number"
+            placeholder="SP"
+            value={storyPoints}
+            onChange={(e) => setStoryPoints(e.target.value)}
+            className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
       </div>
-      <div>
-        <Label>End Date</Label>
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              className={cn(
-                'w-full justify-start text-left font-normal',
-                !endDate && 'text-muted-foreground'
-              )}
-            >
-              <CalendarIcon className="mr-2 h-4 w-4" />
-              {endDate ? format(endDate, 'PPP') : <span>Pick a date</span>}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" align="start">
-            <Calendar
-              mode="single"
-              selected={endDate}
-              onSelect={setEndDate}
-              initialFocus
-            />
-          </PopoverContent>
-        </Popover>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <Label className="text-sm font-semibold text-gray-700">
+            End Date
+          </Label>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className={cn(
+                  'w-full justify-start text-left font-normal border border-gray-200 hover:bg-gray-50',
+                  !endDate && 'text-gray-500'
+                )}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4 text-gray-500" />
+                {endDate ? format(endDate, 'PPP') : 'Select date'}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                mode="single"
+                selected={endDate}
+                onSelect={setEndDate}
+                initialFocus
+                className="rounded-lg border border-gray-200"
+                disabled={(date) => (startDate ? date < startDate : false)}
+              />
+            </PopoverContent>
+          </Popover>
+        </div>
+
+        <div className="space-y-2">
+          <Label className="text-sm font-semibold text-gray-700">
+            Start Date
+          </Label>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className={cn(
+                  'w-full justify-start text-left font-normal border border-gray-200 hover:bg-gray-50',
+                  !startDate && 'text-gray-500'
+                )}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4 text-gray-500" />
+                {startDate ? format(startDate, 'PPP') : 'Select date'}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                mode="single"
+                selected={startDate}
+                onSelect={setStartDate}
+                initialFocus
+                className="rounded-lg border border-gray-200"
+              />
+            </PopoverContent>
+          </Popover>
+        </div>
       </div>
-      <div className="flex justify-end space-x-2">
-        <Button type="button" variant="outline" onClick={onClose}>
-          Cancel
-        </Button>
-        <Button type="submit">{taskId ? 'Update Task' : 'Add Task'}</Button>
+
+      <div className="pt-6 border-t border-gray-200">
+        <div className="flex justify-end gap-3">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={onClose}
+            className="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+          >
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg"
+          >
+            {taskId ? 'Update Task' : 'Create Task'}
+          </Button>
+        </div>
       </div>
     </form>
   )
