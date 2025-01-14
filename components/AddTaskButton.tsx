@@ -21,9 +21,11 @@ export default function AddTaskButton() {
           Add New Task
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>Add New Task</DialogTitle>
+          <DialogTitle className="text-xl font-semibold text-gray-900">
+            Create New Task
+          </DialogTitle>
         </DialogHeader>
         <TaskForm onClose={() => setIsDialogOpen(false)} />
       </DialogContent>
