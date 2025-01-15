@@ -25,6 +25,12 @@ import {
 } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 
 interface TaskFormProps {
   taskId?: string
@@ -56,6 +62,8 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
   )
   const [startDateOpen, setStartDateOpen] = useState(false)
   const [endDateOpen, setEndDateOpen] = useState(false)
+  const [isStartDateDialogOpen, setIsStartDateDialogOpen] = useState(false)
+  const [isEndDateDialogOpen, setIsEndDateDialogOpen] = useState(false)
 
   // Form gönderildiğinde çalışır
   const handleSubmit = (e: React.FormEvent) => {
@@ -214,93 +222,170 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
           <Label className="text-sm font-semibold text-gray-700">
             Start Date
           </Label>
-          <Popover open={startDateOpen} onOpenChange={setStartDateOpen}>
-            <PopoverTrigger asChild>
-              <Button
-                type="button"
-                variant="outline"
-                className={cn(
-                  'w-full justify-start text-left font-normal border border-gray-200 hover:bg-gray-50',
-                  !startDate && 'text-gray-500'
-                )}
-              >
-                <CalendarIcon className="mr-2 h-4 w-4 text-gray-500" />
-                {startDate ? format(startDate, 'PPP') : 'Select date'}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent
-              className="w-[280px] p-0"
-              align="center"
-              side="bottom"
-              sideOffset={8}
-              alignOffset={0}
-              avoidCollisions={true}
-              forceMount
-              style={{
-                maxWidth: 'calc(100vw - 32px)',
-                position: 'relative',
-                zIndex: 50,
-              }}
-            >
-              <Calendar
-                mode="single"
-                selected={startDate}
-                onSelect={(date) => {
-                  handleStartDateSelect(date)
-                  setStartDateOpen(false)
+          <div className="hidden sm:block">
+            <Popover open={startDateOpen} onOpenChange={setStartDateOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className={cn(
+                    'w-full justify-start text-left font-normal border border-gray-200 hover:bg-gray-50',
+                    !startDate && 'text-gray-500'
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4 text-gray-500" />
+                  {startDate ? format(startDate, 'PPP') : 'Select date'}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent
+                className="w-[280px] p-0"
+                align="center"
+                side="bottom"
+                sideOffset={8}
+                alignOffset={0}
+                avoidCollisions={true}
+                forceMount
+                style={{
+                  maxWidth: 'calc(100vw - 32px)',
+                  position: 'relative',
+                  zIndex: 50,
                 }}
-                initialFocus
-                className="rounded-lg border border-gray-200"
-              />
-            </PopoverContent>
-          </Popover>
+              >
+                <Calendar
+                  mode="single"
+                  selected={startDate}
+                  onSelect={(date) => {
+                    handleStartDateSelect(date)
+                    setStartDateOpen(false)
+                  }}
+                  initialFocus
+                  className="rounded-lg border border-gray-200"
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
+          <div className="block sm:hidden">
+            <Button
+              type="button"
+              variant="outline"
+              className={cn(
+                'w-full justify-start text-left font-normal border border-gray-200 hover:bg-gray-50',
+                !startDate && 'text-gray-500'
+              )}
+              onClick={() => setIsStartDateDialogOpen(true)}
+            >
+              <CalendarIcon className="mr-2 h-4 w-4 text-gray-500" />
+              {startDate ? format(startDate, 'PPP') : 'Select date'}
+            </Button>
+            <Dialog
+              open={isStartDateDialogOpen}
+              onOpenChange={setIsStartDateDialogOpen}
+            >
+              <DialogContent className="p-0">
+                <DialogHeader className="p-4 pb-2">
+                  <DialogTitle>Select Start Date</DialogTitle>
+                </DialogHeader>
+                <div className="px-4 pb-4">
+                  <Calendar
+                    mode="single"
+                    selected={startDate}
+                    onSelect={(date) => {
+                      handleStartDateSelect(date)
+                      setIsStartDateDialogOpen(false)
+                    }}
+                    initialFocus
+                    className="rounded-lg border border-gray-200"
+                  />
+                </div>
+              </DialogContent>
+            </Dialog>
+          </div>
         </div>
 
         <div className="space-y-2">
           <Label className="text-sm font-semibold text-gray-700">
             End Date
           </Label>
-          <Popover open={endDateOpen} onOpenChange={setEndDateOpen}>
-            <PopoverTrigger asChild>
-              <Button
-                type="button"
-                variant="outline"
-                className={cn(
-                  'w-full justify-start text-left font-normal border border-gray-200 hover:bg-gray-50',
-                  !endDate && 'text-gray-500'
-                )}
-              >
-                <CalendarIcon className="mr-2 h-4 w-4 text-gray-500" />
-                {endDate ? format(endDate, 'PPP') : 'Select date'}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent
-              className="w-[280px] p-0"
-              align="center"
-              side="bottom"
-              sideOffset={8}
-              alignOffset={0}
-              avoidCollisions={true}
-              forceMount
-              style={{
-                maxWidth: 'calc(100vw - 32px)',
-                position: 'relative',
-                zIndex: 50,
-              }}
-            >
-              <Calendar
-                mode="single"
-                selected={endDate}
-                onSelect={(date) => {
-                  handleEndDateSelect(date)
-                  setEndDateOpen(false)
+          <div className="hidden sm:block">
+            <Popover open={endDateOpen} onOpenChange={setEndDateOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className={cn(
+                    'w-full justify-start text-left font-normal border border-gray-200 hover:bg-gray-50',
+                    !endDate && 'text-gray-500'
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4 text-gray-500" />
+                  {endDate ? format(endDate, 'PPP') : 'Select date'}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent
+                className="w-[280px] p-0"
+                align="center"
+                side="bottom"
+                sideOffset={8}
+                alignOffset={0}
+                avoidCollisions={true}
+                forceMount
+                style={{
+                  maxWidth: 'calc(100vw - 32px)',
+                  position: 'relative',
+                  zIndex: 50,
                 }}
-                initialFocus
-                className="rounded-lg border border-gray-200"
-                disabled={(date) => (startDate ? date < startDate : false)}
-              />
-            </PopoverContent>
-          </Popover>
+              >
+                <Calendar
+                  mode="single"
+                  selected={endDate}
+                  onSelect={(date) => {
+                    handleEndDateSelect(date)
+                    setEndDateOpen(false)
+                  }}
+                  initialFocus
+                  className="rounded-lg border border-gray-200"
+                  disabled={(date) => (startDate ? date < startDate : false)}
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
+          <div className="block sm:hidden">
+            <Button
+              type="button"
+              variant="outline"
+              className={cn(
+                'w-full justify-start text-left font-normal border border-gray-200 hover:bg-gray-50',
+                !endDate && 'text-gray-500'
+              )}
+              onClick={() => setIsEndDateDialogOpen(true)}
+            >
+              <CalendarIcon className="mr-2 h-4 w-4 text-gray-500" />
+              {endDate ? format(endDate, 'PPP') : 'Select date'}
+            </Button>
+            <Dialog
+              open={isEndDateDialogOpen}
+              onOpenChange={setIsEndDateDialogOpen}
+            >
+              <DialogContent className="p-0">
+                <DialogHeader className="p-4 pb-2">
+                  <DialogTitle>Select End Date</DialogTitle>
+                </DialogHeader>
+                <div className="px-4 pb-4">
+                  <Calendar
+                    mode="single"
+                    selected={endDate}
+                    onSelect={(date) => {
+                      handleEndDateSelect(date)
+                      setIsEndDateDialogOpen(false)
+                    }}
+                    initialFocus
+                    className="rounded-lg border border-gray-200"
+                    disabled={(date) => (startDate ? date < startDate : false)}
+                  />
+                </div>
+              </DialogContent>
+            </Dialog>
+          </div>
         </div>
       </div>
 
