@@ -13,10 +13,12 @@ export default function Board() {
   const onDragEnd = (result: DropResult) => {
     const { destination, source, draggableId } = result
 
+    // Eğer hedef sütun yoksa işlem yapılmaz
     if (!destination) {
       return
     }
 
+    // Aynı sütunda aynı index'e bırakılırsa işlem yapılmaz ve state güncellenmez
     if (
       destination.droppableId === source.droppableId &&
       destination.index === source.index
@@ -24,6 +26,7 @@ export default function Board() {
       return
     }
 
+    // Görev taşıma işlemi gerçekleştirilir
     dispatch(
       moveTask({
         taskId: draggableId,
