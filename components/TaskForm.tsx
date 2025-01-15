@@ -229,19 +229,25 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
               </Button>
             </PopoverTrigger>
             <PopoverContent
-              className="w-auto p-0"
-              align="start"
+              className="w-[280px] p-0"
+              align="center"
               side="bottom"
-              sideOffset={4}
+              sideOffset={8}
               alignOffset={0}
               avoidCollisions={true}
+              forceMount
+              style={{
+                maxWidth: 'calc(100vw - 32px)',
+                position: 'relative',
+                zIndex: 50,
+              }}
             >
               <Calendar
                 mode="single"
                 selected={startDate}
                 onSelect={(date) => {
                   handleStartDateSelect(date)
-                  setStartDateOpen(false) // Seçim yapıldığında popover'ı kapat
+                  setStartDateOpen(false)
                 }}
                 initialFocus
                 className="rounded-lg border border-gray-200"
@@ -269,19 +275,25 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
               </Button>
             </PopoverTrigger>
             <PopoverContent
-              className="w-auto p-0"
-              align="start"
+              className="w-[280px] p-0"
+              align="center"
               side="bottom"
-              sideOffset={4}
+              sideOffset={8}
               alignOffset={0}
               avoidCollisions={true}
+              forceMount
+              style={{
+                maxWidth: 'calc(100vw - 32px)',
+                position: 'relative',
+                zIndex: 50,
+              }}
             >
               <Calendar
                 mode="single"
                 selected={endDate}
                 onSelect={(date) => {
                   handleEndDateSelect(date)
-                  setEndDateOpen(false) // Seçim yapıldığında popover'ı kapat
+                  setEndDateOpen(false)
                 }}
                 initialFocus
                 className="rounded-lg border border-gray-200"
