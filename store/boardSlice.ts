@@ -176,10 +176,10 @@ const boardSlice = createSlice({
       const { taskId, source, destination, sourceIndex, destinationIndex } =
         action.payload
 
-      const sourceTaskIds = Array.from(state.columns[source].taskIds)
+      const sourceTaskIds = [...state.columns[source].taskIds]
       sourceTaskIds.splice(sourceIndex, 1)
 
-      const destinationTaskIds = Array.from(state.columns[destination].taskIds)
+      const destinationTaskIds = [...state.columns[destination].taskIds]
       destinationTaskIds.splice(destinationIndex, 0, taskId)
 
       state.columns[source].taskIds = sourceTaskIds
