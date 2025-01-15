@@ -37,6 +37,38 @@ interface TaskFormProps {
   onClose: () => void
 }
 
+// Ortak calendar styles objesi oluşturalım
+const calendarStyles = {
+  root: 'w-full flex flex-col items-center',
+  months: 'w-full space-y-4',
+  month: 'space-y-4',
+  caption: 'flex justify-center pt-1 relative items-center',
+  caption_label: 'text-sm font-medium text-gray-700',
+  nav: 'flex items-center space-x-1',
+  nav_button: 'p-1 rounded-md hover:bg-gray-100 transition-colors',
+  table: 'w-full border-collapse',
+  head_row: 'flex justify-center',
+  head_cell: 'w-9 text-xs font-medium text-gray-500 py-2',
+  row: 'flex justify-center mt-1',
+  cell: 'relative p-0 text-center',
+  day: [
+    'h-9 w-9 p-0 font-normal',
+    'flex items-center justify-center',
+    'hover:bg-gray-100 rounded-md transition-colors',
+    'cursor-pointer select-none',
+  ].join(' '),
+  day_selected: [
+    'bg-blue-600 text-white',
+    'hover:bg-blue-700',
+    'focus:bg-blue-700 focus:text-white',
+    'rounded-md',
+  ].join(' '),
+  day_today: 'bg-gray-100 font-semibold',
+  day_outside: 'text-gray-400',
+  day_disabled: 'text-gray-300 cursor-not-allowed',
+  day_hidden: 'invisible',
+}
+
 export default function TaskForm({ taskId, onClose }: TaskFormProps) {
   const dispatch = useDispatch()
   const users = useSelector((state: RootState) => state.board.users)
@@ -234,7 +266,7 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
                   )}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4 text-gray-500" />
-                  {startDate ? format(startDate, 'PPP') : 'Select date'}
+                  {startDate ? format(startDate, 'PPP') : 'Select Start Date'}
                 </Button>
               </PopoverTrigger>
               <PopoverContent
@@ -259,7 +291,8 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
                     setStartDateOpen(false)
                   }}
                   initialFocus
-                  className="rounded-lg border border-gray-200"
+                  className="mx-auto border border-gray-200 rounded-lg"
+                  classNames={calendarStyles}
                 />
               </PopoverContent>
             </Popover>
@@ -275,7 +308,7 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
               onClick={() => setIsStartDateDialogOpen(true)}
             >
               <CalendarIcon className="mr-2 h-4 w-4 text-gray-500" />
-              {startDate ? format(startDate, 'PPP') : 'Select date'}
+              {startDate ? format(startDate, 'PPP') : 'Select Start Date'}
             </Button>
             <Dialog
               open={isStartDateDialogOpen}
@@ -296,31 +329,8 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
                       setIsStartDateDialogOpen(false)
                     }}
                     initialFocus
-                    className="mx-auto"
-                    classNames={{
-                      root: 'w-full',
-                      months: 'w-full space-y-4',
-                      month: 'space-y-4',
-                      caption: 'flex justify-center pt-1 relative items-center',
-                      caption_label: 'text-sm font-medium',
-                      nav: 'space-x-1 flex items-center',
-                      nav_button:
-                        'h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100',
-                      table: 'w-full border-collapse space-y-1',
-                      head_row: 'flex justify-center',
-                      head_cell:
-                        'text-muted-foreground rounded-md w-9 font-normal text-xs',
-                      row: 'flex justify-center mt-2',
-                      cell: 'text-center text-sm relative p-0 hover:bg-gray-100 rounded-md',
-                      day: 'h-9 w-9 p-0 font-normal aria-selected:opacity-100 hover:bg-gray-100 rounded-md',
-                      day_selected:
-                        'bg-blue-600 text-white hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white',
-                      day_today: 'bg-gray-100',
-                      day_outside: 'opacity-50',
-                      day_disabled: 'opacity-50',
-                      day_range_middle: 'aria-selected:bg-gray-100',
-                      day_hidden: 'invisible',
-                    }}
+                    className="mx-auto border border-gray-200 rounded-lg"
+                    classNames={calendarStyles}
                   />
                 </div>
               </DialogContent>
@@ -344,7 +354,7 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
                   )}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4 text-gray-500" />
-                  {endDate ? format(endDate, 'PPP') : 'Select date'}
+                  {endDate ? format(endDate, 'PPP') : 'Select End Date'}
                 </Button>
               </PopoverTrigger>
               <PopoverContent
@@ -366,10 +376,11 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
                   selected={endDate}
                   onSelect={(date) => {
                     handleEndDateSelect(date)
-                    setEndDateOpen(false)
+                    setIsEndDateDialogOpen(false)
                   }}
                   initialFocus
-                  className="rounded-lg border border-gray-200"
+                  className="mx-auto border border-gray-200 rounded-lg"
+                  classNames={calendarStyles}
                   disabled={(date) => (startDate ? date < startDate : false)}
                 />
               </PopoverContent>
@@ -386,7 +397,7 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
               onClick={() => setIsEndDateDialogOpen(true)}
             >
               <CalendarIcon className="mr-2 h-4 w-4 text-gray-500" />
-              {endDate ? format(endDate, 'PPP') : 'Select date'}
+              {endDate ? format(endDate, 'PPP') : 'Select End Date'}
             </Button>
             <Dialog
               open={isEndDateDialogOpen}
@@ -407,31 +418,8 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
                       setIsEndDateDialogOpen(false)
                     }}
                     initialFocus
-                    className="mx-auto"
-                    classNames={{
-                      root: 'w-full',
-                      months: 'w-full space-y-4',
-                      month: 'space-y-4',
-                      caption: 'flex justify-center pt-1 relative items-center',
-                      caption_label: 'text-sm font-medium',
-                      nav: 'space-x-1 flex items-center',
-                      nav_button:
-                        'h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100',
-                      table: 'w-full border-collapse space-y-1',
-                      head_row: 'flex justify-center',
-                      head_cell:
-                        'text-muted-foreground rounded-md w-9 font-normal text-xs',
-                      row: 'flex justify-center mt-2',
-                      cell: 'text-center text-sm relative p-0 hover:bg-gray-100 rounded-md',
-                      day: 'h-9 w-9 p-0 font-normal aria-selected:opacity-100 hover:bg-gray-100 rounded-md',
-                      day_selected:
-                        'bg-blue-600 text-white hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white',
-                      day_today: 'bg-gray-100',
-                      day_outside: 'opacity-50',
-                      day_disabled: 'opacity-50',
-                      day_range_middle: 'aria-selected:bg-gray-100',
-                      day_hidden: 'invisible',
-                    }}
+                    className="mx-auto border border-gray-200 rounded-lg"
+                    classNames={calendarStyles}
                     disabled={(date) => (startDate ? date < startDate : false)}
                   />
                 </div>
