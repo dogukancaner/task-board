@@ -75,5 +75,3 @@ Modern bir task yönetim uygulaması olan Kanban Board projesi, React ve TypeScr
 - Kolay kullanım
 - Modal ile task detay görüntüleme
 - Takvim entegrasyonu
-
-## 🙏 Teşekkürler
