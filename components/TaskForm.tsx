@@ -54,8 +54,6 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
   const [endDate, setEndDate] = useState<Date | undefined>(
     existingTask?.endDate ? new Date(existingTask.endDate) : undefined
   )
-  const [startDateOpen, setStartDateOpen] = useState(false)
-  const [endDateOpen, setEndDateOpen] = useState(false)
 
   // Form gönderildiğinde çalışır
   const handleSubmit = (e: React.FormEvent) => {
@@ -76,18 +74,6 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
       dispatch(addTask(taskData))
     }
     onClose()
-  }
-
-  // Başlangıç tarihi seçildiğinde çalışır
-  const handleStartDateSelect = (date: Date | undefined) => {
-    setStartDate(date)
-    setStartDateOpen(false)
-  }
-
-  // Bitiş tarihi seçildiğinde çalışır
-  const handleEndDateSelect = (date: Date | undefined) => {
-    setEndDate(date)
-    setEndDateOpen(false)
   }
 
   return (
@@ -203,52 +189,14 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label className="text-sm font-semibold text-gray-700">
-            Start Date
-          </Label>
-          <Popover open={startDateOpen} onOpenChange={setStartDateOpen}>
-            <PopoverTrigger asChild>
-              <Button
-                type="button"
-                variant="outline"
-                className={cn(
-                  'w-full justify-start text-left font-normal border border-gray-200 hover:bg-gray-50',
-                  !startDate && 'text-gray-500'
-                )}
-              >
-                <CalendarIcon className="mr-2 h-4 w-4 text-gray-500" />
-                {startDate ? format(startDate, 'PPP') : 'Select date'}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent
-              className="w-auto p-0"
-              align="start"
-              side="bottom"
-              sideOffset={4}
-              alignOffset={0}
-              avoidCollisions={true}
-            >
-              <Calendar
-                mode="single"
-                selected={startDate}
-                onSelect={handleStartDateSelect}
-                initialFocus
-                className="rounded-lg border border-gray-200"
-              />
-            </PopoverContent>
-          </Popover>
-        </div>
-
+      <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label className="text-sm font-semibold text-gray-700">
             End Date
           </Label>
-          <Popover open={endDateOpen} onOpenChange={setEndDateOpen}>
+          <Popover>
             <PopoverTrigger asChild>
               <Button
-                type="button"
                 variant="outline"
                 className={cn(
                   'w-full justify-start text-left font-normal border border-gray-200 hover:bg-gray-50',
@@ -259,21 +207,43 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
                 {endDate ? format(endDate, 'PPP') : 'Select date'}
               </Button>
             </PopoverTrigger>
-            <PopoverContent
-              className="w-auto p-0"
-              align="start"
-              side="bottom"
-              sideOffset={4}
-              alignOffset={0}
-              avoidCollisions={true}
-            >
+            <PopoverContent className="w-auto p-0" align="start">
               <Calendar
                 mode="single"
                 selected={endDate}
-                onSelect={handleEndDateSelect}
+                onSelect={setEndDate}
                 initialFocus
                 className="rounded-lg border border-gray-200"
                 disabled={(date) => (startDate ? date < startDate : false)}
+              />
+            </PopoverContent>
+          </Popover>
+        </div>
+
+        <div className="space-y-2">
+          <Label className="text-sm font-semibold text-gray-700">
+            Start Date
+          </Label>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className={cn(
+                  'w-full justify-start text-left font-normal border border-gray-200 hover:bg-gray-50',
+                  !startDate && 'text-gray-500'
+                )}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4 text-gray-500" />
+                {startDate ? format(startDate, 'PPP') : 'Select date'}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                mode="single"
+                selected={startDate}
+                onSelect={setStartDate}
+                initialFocus
+                className="rounded-lg border border-gray-200"
               />
             </PopoverContent>
           </Popover>
