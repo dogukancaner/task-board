@@ -281,10 +281,10 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
               open={isStartDateDialogOpen}
               onOpenChange={setIsStartDateDialogOpen}
             >
-              <DialogContent className="p-0 sm:max-w-[425px]">
+              <DialogContent className="p-0 sm:max-w-[425px] w-[95vw] mx-auto">
                 <DialogHeader className="p-4 pb-2 space-y-1">
-                  <DialogTitle className="text-lg font-semibold">
-                    Select Start Date
+                  <DialogTitle className="text-lg font-semibold text-center">
+                    Select Date
                   </DialogTitle>
                 </DialogHeader>
                 <div className="px-4 pb-4">
@@ -296,17 +296,30 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
                       setIsStartDateDialogOpen(false)
                     }}
                     initialFocus
-                    className="rounded-lg border border-gray-200 mx-auto"
+                    className="mx-auto"
                     classNames={{
                       root: 'w-full',
-                      months: 'w-full',
-                      month: 'w-full',
-                      table: 'w-full',
-                      head_cell: 'text-muted-foreground font-normal text-xs',
-                      cell: 'h-9 w-9 text-center text-sm p-0 relative',
-                      day: 'h-9 w-9 p-0 font-normal',
-                      day_selected: 'bg-blue-600 text-white hover:bg-blue-600',
+                      months: 'w-full space-y-4',
+                      month: 'space-y-4',
+                      caption: 'flex justify-center pt-1 relative items-center',
+                      caption_label: 'text-sm font-medium',
+                      nav: 'space-x-1 flex items-center',
+                      nav_button:
+                        'h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100',
+                      table: 'w-full border-collapse space-y-1',
+                      head_row: 'flex justify-center',
+                      head_cell:
+                        'text-muted-foreground rounded-md w-9 font-normal text-xs',
+                      row: 'flex justify-center mt-2',
+                      cell: 'text-center text-sm relative p-0 hover:bg-gray-100 rounded-md',
+                      day: 'h-9 w-9 p-0 font-normal aria-selected:opacity-100 hover:bg-gray-100 rounded-md',
+                      day_selected:
+                        'bg-blue-600 text-white hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white',
                       day_today: 'bg-gray-100',
+                      day_outside: 'opacity-50',
+                      day_disabled: 'opacity-50',
+                      day_range_middle: 'aria-selected:bg-gray-100',
+                      day_hidden: 'invisible',
                     }}
                   />
                 </div>
