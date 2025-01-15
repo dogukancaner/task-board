@@ -266,7 +266,7 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
                   )}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4 text-gray-500" />
-                  {startDate ? format(startDate, 'PPP') : 'Select Start Date'}
+                  {startDate ? format(startDate, 'PP') : 'Select Start Date'}
                 </Button>
               </PopoverTrigger>
               <PopoverContent
@@ -308,7 +308,7 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
               onClick={() => setIsStartDateDialogOpen(true)}
             >
               <CalendarIcon className="mr-2 h-4 w-4 text-gray-500" />
-              {startDate ? format(startDate, 'PPP') : 'Select Start Date'}
+              {startDate ? format(startDate, 'PP') : 'Select Start Date'}
             </Button>
             <Dialog
               open={isStartDateDialogOpen}
@@ -354,7 +354,7 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
                   )}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4 text-gray-500" />
-                  {endDate ? format(endDate, 'PPP') : 'Select End Date'}
+                  {endDate ? format(endDate, 'PP') : 'Select End Date'}
                 </Button>
               </PopoverTrigger>
               <PopoverContent
@@ -397,7 +397,7 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
               onClick={() => setIsEndDateDialogOpen(true)}
             >
               <CalendarIcon className="mr-2 h-4 w-4 text-gray-500" />
-              {endDate ? format(endDate, 'PPP') : 'Select End Date'}
+              {endDate ? format(endDate, 'PP') : 'Select End Date'}
             </Button>
             <Dialog
               open={isEndDateDialogOpen}
