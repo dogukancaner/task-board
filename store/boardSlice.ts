@@ -177,21 +177,33 @@ const boardSlice = createSlice({
       const { taskId, source, destination, sourceIndex, destinationIndex } =
         action.payload
 
-      // Kaynak sütunun görev ID'lerini alır ve taşınan görevi çıkarır
-      const sourceTaskIds = [...state.columns[source].taskIds]
-      sourceTaskIds.splice(sourceIndex, 1)
+      // Kaynak ve hedef aynı sütun ise
+      if (source === destination) {
+        const column = state.columns[source]
+        const newTaskIds = [...column.taskIds]
+        // Taşınan görevi çıkar ve yeni konuma ekle
+        newTaskIds.splice(sourceIndex, 1)
+        newTaskIds.splice(destinationIndex, 0, taskId)
+        // Sütunu güncelle
+        state.columns[source].taskIds = newTaskIds
+      } else {
+        // Farklı sütunlar arası taşıma
+        const sourceTaskIds = [...state.columns[source].taskIds]
+        const destinationTaskIds = [...state.columns[destination].taskIds]
 
-      // Hedef sütunun görev ID'lerini alır ve taşınan görevi ekler
-      const destinationTaskIds = [...state.columns[destination].taskIds]
-      destinationTaskIds.splice(destinationIndex, 0, taskId)
+        // Kaynak sütundan görevi çıkar
+        sourceTaskIds.splice(sourceIndex, 1)
+        // Hedef sütuna görevi ekle
+        destinationTaskIds.splice(destinationIndex, 0, taskId)
 
-      // Güncellenmiş görev ID'lerini state'e kaydedir
-      state.columns[source].taskIds = sourceTaskIds
-      state.columns[destination].taskIds = destinationTaskIds
+        // Sütunları güncelle
+        state.columns[source].taskIds = sourceTaskIds
+        state.columns[destination].taskIds = destinationTaskIds
 
-      // Görevin durumunu hedef sütunun başlığına göre günceller
-      state.tasks[taskId].status = state.columns[destination]
-        .title as Task['status']
+        // Görevin durumunu güncelle
+        state.tasks[taskId].status = state.columns[destination]
+          .title as Task['status']
+      }
     },
     // Yeni görev ekleme
     addTask: (
