@@ -90,6 +90,12 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
     setEndDateOpen(false)
   }
 
+  // Tarih formatını düzenleyen yardımcı fonksiyon
+  const formatDateForInput = (date: Date | undefined) => {
+    if (!date) return ''
+    return format(date, 'yyyy-MM-dd')
+  }
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-2">
@@ -206,61 +212,90 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label className="text-sm font-semibold text-gray-700">
-            End Date
+            Start Date
           </Label>
-          <Popover open={endDateOpen} onOpenChange={setEndDateOpen}>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                className={cn(
-                  'w-full justify-start text-left font-normal border border-gray-200 hover:bg-gray-50',
-                  !endDate && 'text-gray-500'
-                )}
-              >
-                <CalendarIcon className="mr-2 h-4 w-4 text-gray-500" />
-                {endDate ? format(endDate, 'PPP') : 'Select date'}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <Calendar
-                mode="single"
-                selected={endDate}
-                onSelect={setEndDate}
-                initialFocus
-                className="rounded-lg border border-gray-200"
-                disabled={(date) => (startDate ? date < startDate : false)}
-              />
-            </PopoverContent>
-          </Popover>
+          {/* Masaüstü için Popover takvim */}
+          <div className="hidden sm:block">
+            <Popover open={startDateOpen} onOpenChange={setStartDateOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className={cn(
+                    'w-full justify-start text-left font-normal border border-gray-200 hover:bg-gray-50',
+                    !startDate && 'text-gray-500'
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4 text-gray-500" />
+                  {startDate ? format(startDate, 'PPP') : 'Select date'}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={startDate}
+                  onSelect={handleStartDateSelect}
+                  initialFocus
+                  className="rounded-lg border border-gray-200"
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
+          {/* Mobil için native tarih seçici */}
+          <Input
+            type="date"
+            className="block sm:hidden w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500"
+            value={formatDateForInput(startDate)}
+            onChange={(e) => {
+              const date = e.target.value ? new Date(e.target.value) : undefined
+              setStartDate(date)
+            }}
+          />
         </div>
 
         <div className="space-y-2">
           <Label className="text-sm font-semibold text-gray-700">
-            Start Date
+            End Date
           </Label>
-          <Popover open={startDateOpen} onOpenChange={setStartDateOpen}>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                className={cn(
-                  'w-full justify-start text-left font-normal border border-gray-200 hover:bg-gray-50',
-                  !startDate && 'text-gray-500'
-                )}
-              >
-                <CalendarIcon className="mr-2 h-4 w-4 text-gray-500" />
-                {startDate ? format(startDate, 'PPP') : 'Select date'}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <Calendar
-                mode="single"
-                selected={startDate}
-                onSelect={setStartDate}
-                initialFocus
-                className="rounded-lg border border-gray-200"
-              />
-            </PopoverContent>
-          </Popover>
+          {/* Masaüstü için Popover takvim */}
+          <div className="hidden sm:block">
+            <Popover open={endDateOpen} onOpenChange={setEndDateOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className={cn(
+                    'w-full justify-start text-left font-normal border border-gray-200 hover:bg-gray-50',
+                    !endDate && 'text-gray-500'
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4 text-gray-500" />
+                  {endDate ? format(endDate, 'PPP') : 'Select date'}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={endDate}
+                  onSelect={handleEndDateSelect}
+                  initialFocus
+                  className="rounded-lg border border-gray-200"
+                  disabled={(date) => (startDate ? date < startDate : false)}
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
+          {/* Mobil için native tarih seçici */}
+          <Input
+            type="date"
+            className="block sm:hidden w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500"
+            value={formatDateForInput(endDate)}
+            min={formatDateForInput(startDate)} // Başlangıç tarihinden önceki tarihleri seçmeyi engelle
+            onChange={(e) => {
+              const date = e.target.value ? new Date(e.target.value) : undefined
+              setEndDate(date)
+            }}
+          />
         </div>
       </div>
 
