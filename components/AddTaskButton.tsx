@@ -7,6 +7,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
   DialogTrigger,
 } from '@/components/ui/dialog'
 import TaskForm from './TaskForm'
@@ -26,6 +27,9 @@ export default function AddTaskButton() {
           <DialogTitle className="text-xl font-semibold text-gray-900">
             Create New Task
           </DialogTitle>
+          <DialogDescription className="text-sm text-gray-500">
+            Fill in the details below to create a new task
+          </DialogDescription>
         </DialogHeader>
         <TaskForm onClose={() => setIsDialogOpen(false)} />
       </DialogContent>
