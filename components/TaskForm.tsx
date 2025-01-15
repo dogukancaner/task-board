@@ -217,7 +217,7 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-1 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label className="text-sm font-semibold text-gray-700">
             Start Date
@@ -392,9 +392,11 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
               open={isEndDateDialogOpen}
               onOpenChange={setIsEndDateDialogOpen}
             >
-              <DialogContent className="p-0">
-                <DialogHeader className="p-4 pb-2">
-                  <DialogTitle>Select End Date</DialogTitle>
+              <DialogContent className="p-0 sm:max-w-[425px] w-[95vw] mx-auto">
+                <DialogHeader className="p-4 pb-2 space-y-1">
+                  <DialogTitle className="text-lg font-semibold text-center">
+                    Select End Date
+                  </DialogTitle>
                 </DialogHeader>
                 <div className="px-4 pb-4">
                   <Calendar
@@ -405,7 +407,31 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
                       setIsEndDateDialogOpen(false)
                     }}
                     initialFocus
-                    className="rounded-lg border border-gray-200"
+                    className="mx-auto"
+                    classNames={{
+                      root: 'w-full',
+                      months: 'w-full space-y-4',
+                      month: 'space-y-4',
+                      caption: 'flex justify-center pt-1 relative items-center',
+                      caption_label: 'text-sm font-medium',
+                      nav: 'space-x-1 flex items-center',
+                      nav_button:
+                        'h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100',
+                      table: 'w-full border-collapse space-y-1',
+                      head_row: 'flex justify-center',
+                      head_cell:
+                        'text-muted-foreground rounded-md w-9 font-normal text-xs',
+                      row: 'flex justify-center mt-2',
+                      cell: 'text-center text-sm relative p-0 hover:bg-gray-100 rounded-md',
+                      day: 'h-9 w-9 p-0 font-normal aria-selected:opacity-100 hover:bg-gray-100 rounded-md',
+                      day_selected:
+                        'bg-blue-600 text-white hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white',
+                      day_today: 'bg-gray-100',
+                      day_outside: 'opacity-50',
+                      day_disabled: 'opacity-50',
+                      day_range_middle: 'aria-selected:bg-gray-100',
+                      day_hidden: 'invisible',
+                    }}
                     disabled={(date) => (startDate ? date < startDate : false)}
                   />
                 </div>
