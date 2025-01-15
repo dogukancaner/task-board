@@ -54,6 +54,8 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
   const [endDate, setEndDate] = useState<Date | undefined>(
     existingTask?.endDate ? new Date(existingTask.endDate) : undefined
   )
+  const [startDateOpen, setStartDateOpen] = useState(false)
+  const [endDateOpen, setEndDateOpen] = useState(false)
 
   // Form gönderildiğinde çalışır
   const handleSubmit = (e: React.FormEvent) => {
@@ -74,6 +76,18 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
       dispatch(addTask(taskData))
     }
     onClose()
+  }
+
+  // Başlangıç tarihi seçildiğinde çalışır
+  const handleStartDateSelect = (date: Date | undefined) => {
+    setStartDate(date)
+    setStartDateOpen(false)
+  }
+
+  // Bitiş tarihi seçildiğinde çalışır
+  const handleEndDateSelect = (date: Date | undefined) => {
+    setEndDate(date)
+    setEndDateOpen(false)
   }
 
   return (
@@ -194,7 +208,7 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
           <Label className="text-sm font-semibold text-gray-700">
             End Date
           </Label>
-          <Popover>
+          <Popover open={endDateOpen} onOpenChange={setEndDateOpen}>
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
@@ -224,7 +238,7 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
           <Label className="text-sm font-semibold text-gray-700">
             Start Date
           </Label>
-          <Popover>
+          <Popover open={startDateOpen} onOpenChange={setStartDateOpen}>
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
