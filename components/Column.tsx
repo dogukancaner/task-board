@@ -12,7 +12,7 @@ export default function Column({ column, tasks }: ColumnProps) {
     <div className="bg-white p-4 rounded-lg shadow-md h-[calc(100vh-12rem)] flex flex-col">
       <div className="flex items-center justify-between mb-4">
         <h2 className="font-bold text-lg text-gray-700">{column.title}</h2>
-        <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-sm font-medium">
+        <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-sm font-bold">
           {tasks.length}
         </span>
       </div>
