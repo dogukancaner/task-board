@@ -12,11 +12,11 @@ export interface Task {
   id: string
   title: string
   description: string
-  assignee: User
+  assignee: User | null
   status: 'Open' | 'In Progress' | 'In Review' | 'Done'
   storyPoints: number
-  startDate: string
-  endDate: string
+  startDate: string | null
+  endDate: string | null
 }
 
 export interface Column {
@@ -193,11 +193,19 @@ const boardSlice = createSlice({
       state.tasks[taskId].status = state.columns[destination]
         .title as Task['status']
     },
-    // Yeni görev ekleme işlemi
-    // Benzersiz id oluşur
-    // Yeni görevi state'e ekler
-    // Yeni görevi column-1 yani Open sütununa ekler
-    addTask: (state, action: PayloadAction<Omit<Task, 'id'>>) => {
+    // Yeni görev ekleme
+    addTask: (
+      state,
+      action: PayloadAction<{
+        title: string
+        description: string
+        assignee: User | null
+        storyPoints: number
+        startDate: string | null
+        endDate: string | null
+        status: Task['status']
+      }>
+    ) => {
       const id = uuidv4()
       state.tasks[id] = { ...action.payload, id }
       state.columns['column-1'].taskIds.push(id)
@@ -205,7 +213,18 @@ const boardSlice = createSlice({
     // Görevi güncelleme işlemi
     updateTask: (
       state,
-      action: PayloadAction<{ id: string; updates: Partial<Task> }>
+      action: PayloadAction<{
+        id: string
+        updates: {
+          title?: string
+          description?: string
+          assignee?: User | null
+          storyPoints?: number
+          startDate?: string | null
+          endDate?: string | null
+          status?: Task['status']
+        }
+      }>
     ) => {
       const { id, updates } = action.payload
       state.tasks[id] = { ...state.tasks[id], ...updates }
