@@ -54,7 +54,10 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
   const [endDate, setEndDate] = useState<Date | undefined>(
     existingTask?.endDate ? new Date(existingTask.endDate) : undefined
   )
+  const [startDateOpen, setStartDateOpen] = useState(false)
+  const [endDateOpen, setEndDateOpen] = useState(false)
 
+  // Form gönderildiğinde çalışır
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     const taskData = {
@@ -66,12 +69,25 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
       endDate: endDate?.toISOString() || null,
       status: existingTask?.status || 'Open',
     }
+    // Eğer taskId varsa, güncelleme işlemi yapılır, yoksa yeni task eklenir
     if (taskId) {
       dispatch(updateTask({ id: taskId, updates: taskData }))
     } else {
       dispatch(addTask(taskData))
     }
     onClose()
+  }
+
+  // Başlangıç tarihi seçildiğinde çalışır
+  const handleStartDateSelect = (date: Date | undefined) => {
+    setStartDate(date)
+    setStartDateOpen(false)
+  }
+
+  // Bitiş tarihi seçildiğinde çalışır
+  const handleEndDateSelect = (date: Date | undefined) => {
+    setEndDate(date)
+    setEndDateOpen(false)
   }
 
   return (
@@ -192,7 +208,7 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
           <Label className="text-sm font-semibold text-gray-700">
             End Date
           </Label>
-          <Popover>
+          <Popover open={endDateOpen} onOpenChange={setEndDateOpen}>
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
@@ -209,7 +225,7 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
               <Calendar
                 mode="single"
                 selected={endDate}
-                onSelect={setEndDate}
+                onSelect={handleEndDateSelect}
                 initialFocus
                 className="rounded-lg border border-gray-200"
                 disabled={(date) => (startDate ? date < startDate : false)}
@@ -222,7 +238,7 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
           <Label className="text-sm font-semibold text-gray-700">
             Start Date
           </Label>
-          <Popover>
+          <Popover open={startDateOpen} onOpenChange={setStartDateOpen}>
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
@@ -239,7 +255,7 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
               <Calendar
                 mode="single"
                 selected={startDate}
-                onSelect={setStartDate}
+                onSelect={handleStartDateSelect}
                 initialFocus
                 className="rounded-lg border border-gray-200"
               />
