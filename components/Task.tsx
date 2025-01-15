@@ -57,10 +57,10 @@ export default function Task({ task, index }: TaskProps) {
                   <LayersIcon className="w-3 h-3" />
                   {task.storyPoints} SP
                 </Badge>
-                {task.startDate && (
+                {task.endDate && (
                   <Badge variant="outline" className="flex items-center gap-1">
                     <CalendarIcon className="w-3 h-3" />
-                    {formatDate(task.startDate)}
+                    {formatDate(task.endDate)}
                   </Badge>
                 )}
               </div>

@@ -281,9 +281,11 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
               open={isStartDateDialogOpen}
               onOpenChange={setIsStartDateDialogOpen}
             >
-              <DialogContent className="p-0">
-                <DialogHeader className="p-4 pb-2">
-                  <DialogTitle>Select Start Date</DialogTitle>
+              <DialogContent className="p-0 sm:max-w-[425px]">
+                <DialogHeader className="p-4 pb-2 space-y-1">
+                  <DialogTitle className="text-lg font-semibold">
+                    Select Start Date
+                  </DialogTitle>
                 </DialogHeader>
                 <div className="px-4 pb-4">
                   <Calendar
@@ -294,7 +296,18 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
                       setIsStartDateDialogOpen(false)
                     }}
                     initialFocus
-                    className="rounded-lg border border-gray-200"
+                    className="rounded-lg border border-gray-200 mx-auto"
+                    classNames={{
+                      root: 'w-full',
+                      months: 'w-full',
+                      month: 'w-full',
+                      table: 'w-full',
+                      head_cell: 'text-muted-foreground font-normal text-xs',
+                      cell: 'h-9 w-9 text-center text-sm p-0 relative',
+                      day: 'h-9 w-9 p-0 font-normal',
+                      day_selected: 'bg-blue-600 text-white hover:bg-blue-600',
+                      day_today: 'bg-gray-100',
+                    }}
                   />
                 </div>
               </DialogContent>
