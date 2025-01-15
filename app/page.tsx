@@ -10,10 +10,12 @@ export default function Home() {
     <main className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 p-8 container mx-auto">
       <div className="max-w-7xl mx-auto">
         <Header />
-        <div className="flex justify-between items-center mb-8">
-          <TeamMembers />
+
+        <TeamMembers />
+        <div className="flex justify-end mb-8 mt-8">
           <AddTaskButton />
         </div>
+
         <Board />
       </div>
     </main>
