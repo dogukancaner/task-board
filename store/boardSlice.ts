@@ -12,11 +12,11 @@ export interface Task {
   id: string
   title: string
   description: string
-  assignee: User | null
+  assignee: User
   status: 'Open' | 'In Progress' | 'In Review' | 'Done'
   storyPoints: number
-  startDate: string | null
-  endDate: string | null
+  startDate: string
+  endDate: string
 }
 
 export interface Column {
@@ -163,6 +163,7 @@ const boardSlice = createSlice({
   name: 'board',
   initialState,
   reducers: {
+    // Görevi taşıma işlemi
     moveTask: (
       state,
       action: PayloadAction<{
@@ -176,23 +177,32 @@ const boardSlice = createSlice({
       const { taskId, source, destination, sourceIndex, destinationIndex } =
         action.payload
 
+      // Kaynak sütunun görev ID'lerini alır ve taşınan görevi çıkarır
       const sourceTaskIds = [...state.columns[source].taskIds]
       sourceTaskIds.splice(sourceIndex, 1)
 
+      // Hedef sütunun görev ID'lerini alır ve taşınan görevi ekler
       const destinationTaskIds = [...state.columns[destination].taskIds]
       destinationTaskIds.splice(destinationIndex, 0, taskId)
 
+      // Güncellenmiş görev ID'lerini state'e kaydedir
       state.columns[source].taskIds = sourceTaskIds
       state.columns[destination].taskIds = destinationTaskIds
 
+      // Görevin durumunu hedef sütunun başlığına göre günceller
       state.tasks[taskId].status = state.columns[destination]
         .title as Task['status']
     },
+    // Yeni görev ekleme işlemi
+    // Benzersiz id oluşur
+    // Yeni görevi state'e ekler
+    // Yeni görevi column-1 yani Open sütununa ekler
     addTask: (state, action: PayloadAction<Omit<Task, 'id'>>) => {
       const id = uuidv4()
       state.tasks[id] = { ...action.payload, id }
       state.columns['column-1'].taskIds.push(id)
     },
+    // Görevi güncelleme işlemi
     updateTask: (
       state,
       action: PayloadAction<{ id: string; updates: Partial<Task> }>
@@ -203,5 +213,6 @@ const boardSlice = createSlice({
   },
 })
 
+// Action'ları ve reducer'ı dışa aktarma
 export const { moveTask, addTask, updateTask } = boardSlice.actions
 export default boardSlice.reducer

@@ -10,7 +10,13 @@ interface ColumnProps {
 export default function Column({ column, tasks }: ColumnProps) {
   return (
     <div className="bg-white p-4 rounded-lg shadow-md h-[calc(100vh-12rem)] flex flex-col">
-      <h2 className="font-bold mb-4 text-lg text-gray-700">{column.title}</h2>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="font-bold text-lg text-gray-700">{column.title}</h2>
+        <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-sm font-medium">
+          {tasks.length}
+        </span>
+      </div>
+
       <Droppable droppableId={column.id}>
         {(provided) => (
           <div
