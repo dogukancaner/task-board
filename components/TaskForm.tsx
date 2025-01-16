@@ -130,12 +130,6 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
     setEndDateOpen(false)
   }
 
-  // Tarih formatını düzenleyen yardımcı fonksiyon
-  const formatDateForInput = (date: Date | undefined) => {
-    if (!date) return ''
-    return format(date, 'yyyy-MM-dd')
-  }
-
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-2">
