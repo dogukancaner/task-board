@@ -13,7 +13,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import { CalendarIcon } from 'lucide-react'
+import {
+  CalendarIcon,
+  ClipboardListIcon,
+  UserIcon,
+  HashIcon,
+  AlignLeftIcon,
+} from 'lucide-react'
 import { format } from 'date-fns'
 import { cn } from '@/lib/utils'
 import {
@@ -110,7 +116,11 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-2">
-        <Label htmlFor="title" className="text-sm font-semibold text-gray-700">
+        <Label
+          htmlFor="title"
+          className="text-sm font-semibold text-gray-700 flex items-center gap-2"
+        >
+          <ClipboardListIcon className="h-4 w-4" />
           Task Title
         </Label>
         <Input
@@ -126,8 +136,9 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
       <div className="space-y-2">
         <Label
           htmlFor="description"
-          className="text-sm font-semibold text-gray-700"
+          className="text-sm font-semibold text-gray-700 flex items-center gap-2"
         >
+          <AlignLeftIcon className="h-4 w-4" />
           Description
         </Label>
         <Textarea
@@ -143,8 +154,9 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
         <div className="space-y-2">
           <Label
             htmlFor="assignee"
-            className="text-sm font-semibold text-gray-700"
+            className="text-sm font-semibold text-gray-700 flex items-center gap-2"
           >
+            <UserIcon className="h-4 w-4" />
             Assignee
           </Label>
           <Select
@@ -206,8 +218,9 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
         <div className="space-y-2">
           <Label
             htmlFor="storyPoints"
-            className="text-sm font-semibold text-gray-700"
+            className="text-sm font-semibold text-gray-700 flex items-center gap-2"
           >
+            <HashIcon className="h-4 w-4" />
             Story Points
           </Label>
           <Input
@@ -223,7 +236,8 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label className="text-sm font-semibold text-gray-700">
+          <Label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+            <CalendarIcon className="h-4 w-4" />
             Start Date
           </Label>
           <div className="hidden sm:block">
@@ -311,7 +325,8 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
         </div>
 
         <div className="space-y-2">
-          <Label className="text-sm font-semibold text-gray-700">
+          <Label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+            <CalendarIcon className="h-4 w-4" />
             End Date
           </Label>
           <div className="hidden sm:block">
