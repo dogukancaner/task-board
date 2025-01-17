@@ -49,17 +49,21 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
   const [description, setDescription] = useState(
     existingTask?.description || ''
   )
-  const [assignee, setAssignee] = useState<User | null>(
-    existingTask?.assignee || null
-  )
+  const [assignee, setAssignee] = useState<User>(() => {
+    return existingTask?.assignee && users.includes(existingTask.assignee)
+      ? existingTask.assignee
+      : users[0]
+  })
   const [storyPoints, setStoryPoints] = useState(
-    existingTask?.storyPoints.toString() || ''
+    existingTask?.storyPoints?.toString() || '0'
   )
-  const [startDate, setStartDate] = useState<Date | undefined>(
-    existingTask?.startDate ? new Date(existingTask.startDate) : undefined
+  const [startDate, setStartDate] = useState<Date>(
+    existingTask?.startDate ? new Date(existingTask.startDate) : new Date()
   )
-  const [endDate, setEndDate] = useState<Date | undefined>(
-    existingTask?.endDate ? new Date(existingTask.endDate) : undefined
+  const [endDate, setEndDate] = useState<Date>(
+    existingTask?.endDate
+      ? new Date(existingTask.endDate)
+      : new Date(new Date().setDate(new Date().getDate() + 1))
   )
   const [startDateOpen, setStartDateOpen] = useState(false)
   const [endDateOpen, setEndDateOpen] = useState(false)
@@ -74,8 +78,8 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
       description,
       assignee,
       storyPoints: parseInt(storyPoints),
-      startDate: startDate?.toISOString() || null,
-      endDate: endDate?.toISOString() || null,
+      startDate: startDate.toISOString(),
+      endDate: endDate.toISOString(),
       status: existingTask?.status || 'Open',
     }
     // Eğer taskId varsa, güncelleme işlemi yapılır, yoksa yeni task eklenir
@@ -89,14 +93,18 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
 
   // Başlangıç tarihi seçildiğinde çalışır
   const handleStartDateSelect = (date: Date | undefined) => {
-    setStartDate(date)
-    setStartDateOpen(false)
+    if (date) {
+      setStartDate(date)
+      setStartDateOpen(false)
+    }
   }
 
   // Bitiş tarihi seçildiğinde çalışır
   const handleEndDateSelect = (date: Date | undefined) => {
-    setEndDate(date)
-    setEndDateOpen(false)
+    if (date) {
+      setEndDate(date)
+      setEndDateOpen(false)
+    }
   }
 
   return (
@@ -141,9 +149,10 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
           </Label>
           <Select
             value={assignee?.id || ''}
-            onValueChange={(value) =>
-              setAssignee(users.find((user) => user.id === value) || null)
-            }
+            onValueChange={(value) => {
+              const selectedUser = users.find((user) => user.id === value)
+              setAssignee(selectedUser || users[0])
+            }}
           >
             <SelectTrigger
               id="assignee"
