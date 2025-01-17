@@ -64,6 +64,7 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
       status: existingTask?.status || 'Open',
     }
 
+    // Görevin id'sine göre güncelleme veya ekleme işlemi yapılır
     if (taskId) {
       dispatch(updateTask({ id: taskId, updates: taskData }))
     } else {
