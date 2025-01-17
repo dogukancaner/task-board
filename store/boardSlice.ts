@@ -32,6 +32,7 @@ interface BoardState {
   users: User[]
 }
 
+// Başlangıç durumu
 const initialState: BoardState = {
   tasks: {
     'task-1': {
@@ -218,8 +219,11 @@ const boardSlice = createSlice({
         status: Task['status']
       }>
     ) => {
+      // Yeni görevin benzersiz id'sini oluşturur.
       const id = uuidv4()
+      // Yeni görevi state'e ekler
       state.tasks[id] = { ...action.payload, id }
+      // Yeni görevi Open(column-1) sütununa ekler
       state.columns['column-1'].taskIds.push(id)
     },
     // Görevi güncelleme işlemi
@@ -238,7 +242,9 @@ const boardSlice = createSlice({
         }
       }>
     ) => {
+      // Görevin id'sini ve güncellenecek bilgileri alır
       const { id, updates } = action.payload
+      // Görevin mevcut bilgilerini günceller
       state.tasks[id] = { ...state.tasks[id], ...updates }
     },
   },
