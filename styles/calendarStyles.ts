@@ -1,3 +1,4 @@
+// Ortak calendar styles objesi oluşturuldu
 export const calendarStyles = {
   root: 'w-full flex flex-col items-center',
   months: 'w-full space-y-4',
