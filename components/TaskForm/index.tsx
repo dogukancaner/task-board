@@ -75,7 +75,6 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Title Input */}
       <div className="space-y-2">
         <Label htmlFor="title">Task Title</Label>
         <Input
@@ -86,7 +85,6 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
         />
       </div>
 
-      {/* Description Input */}
       <div className="space-y-2">
         <Label htmlFor="description">Description</Label>
         <Textarea
@@ -125,7 +123,6 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
           </Select>
         </div>
 
-        {/* Story Points Input */}
         <div className="space-y-2">
           <Label htmlFor="storyPoints">Story Points</Label>
           <Input
@@ -138,7 +135,6 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
           />
         </div>
 
-        {/* Date Pickers */}
         <DatePicker
           label="Start Date"
           date={startDate}
@@ -156,8 +152,6 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
           minDate={startDate}
         />
       </div>
-
-      {/* Submit Button */}
       <div className="flex justify-end">
         <Button type="submit">{taskId ? 'Update Task' : 'Create Task'}</Button>
       </div>
