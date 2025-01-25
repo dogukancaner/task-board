@@ -3,6 +3,7 @@ import boardReducer from './boardSlice'
 
 export const store = configureStore({
   reducer: {
+    // Board'ı reducer olarak ekler
     board: boardReducer,
   },
 })

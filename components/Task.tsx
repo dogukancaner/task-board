@@ -21,8 +21,10 @@ interface TaskProps {
 }
 
 export default function Task({ task, index }: TaskProps) {
+  // Task'in açılıp açılmadığını kontrol etmek için state
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
+  // Tarih formatlayıcı fonksiyonu
   const formatDate = (dateString: string) => {
     try {
       return format(new Date(dateString), 'dd.MM.yyyy')

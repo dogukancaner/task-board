@@ -7,6 +7,7 @@ import { Users } from 'lucide-react'
 import MemberCard from './MemberCard'
 
 export default function TeamMembers() {
+  // Redux store'dan users'ı al
   const users = useSelector((state: RootState) => state.board.users)
 
   return (

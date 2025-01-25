@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { v4 as uuidv4 } from 'uuid'
 
+// Kullanıcıları temsil eden interface
 export interface User {
   id: string
   name: string
@@ -8,6 +9,7 @@ export interface User {
   role: string
 }
 
+// Görevleri temsil eden interface
 export interface Task {
   id: string
   title: string
@@ -19,12 +21,14 @@ export interface Task {
   endDate: string | null
 }
 
+// Sütunları temsil eden interface
 export interface Column {
   id: string
   title: string
   taskIds: string[]
 }
 
+// Board'ı temsil eden interface
 interface BoardState {
   tasks: { [key: string]: Task }
   columns: { [key: string]: Column }
@@ -175,21 +179,26 @@ const boardSlice = createSlice({
         destinationIndex: number
       }>
     ) => {
+      // Taşınacak görevin id'sini, kaynak ve hedef sütunların id'lerini ve taşınacak görevin sırasını alır
       const { taskId, source, destination, sourceIndex, destinationIndex } =
         action.payload
 
       // Kaynak ve hedef aynı sütun ise
       if (source === destination) {
+        // Kaynak sütununu al
         const column = state.columns[source]
+        // Sütunun taskIds'ini al
         const newTaskIds = [...column.taskIds]
         // Taşınan görevi çıkar ve yeni konuma ekle
         newTaskIds.splice(sourceIndex, 1)
+        // Taşınan görevi hedef sütunun taskIds'ine ekle
         newTaskIds.splice(destinationIndex, 0, taskId)
         // Sütunu güncelle
         state.columns[source].taskIds = newTaskIds
       } else {
         // Farklı sütunlar arası taşıma
         const sourceTaskIds = [...state.columns[source].taskIds]
+        // Hedef sütunun taskIds'ini al
         const destinationTaskIds = [...state.columns[destination].taskIds]
 
         // Kaynak sütundan görevi çıkar
@@ -199,6 +208,7 @@ const boardSlice = createSlice({
 
         // Sütunları güncelle
         state.columns[source].taskIds = sourceTaskIds
+        // Hedef sütunu güncelle
         state.columns[destination].taskIds = destinationTaskIds
 
         // Görevin durumunu güncelle

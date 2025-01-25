@@ -46,39 +46,53 @@ interface TaskFormProps {
 
 export default function TaskForm({ taskId, onClose }: TaskFormProps) {
   const dispatch = useDispatch()
+  // Redux store'dan users'ı al
   const users = useSelector((state: RootState) => state.board.users)
+  // Eğer taskId varsa, o task'i al, yoksa null dön
   const existingTask = useSelector((state: RootState) =>
     taskId ? state.board.tasks[taskId] : null
   )
 
+  // Task title'ını oluştur
   const [title, setTitle] = useState(existingTask?.title || '')
+  // Eğer taskId varsa, o task'in description'ını al, yoksa boş string dön
   const [description, setDescription] = useState(
     existingTask?.description || ''
   )
+  // Eğer taskId varsa, o task'in assignee'sini al, yoksa users[0] dön
   const [assignee, setAssignee] = useState<User>(() => {
     return existingTask?.assignee && users.includes(existingTask.assignee)
       ? existingTask.assignee
       : users[0]
   })
+  // Eğer taskId varsa, o task'in storyPoints'ını al, yoksa 0 dön
   const [storyPoints, setStoryPoints] = useState(
     existingTask?.storyPoints?.toString() || '0'
   )
+  // Eğer taskId varsa, o task'in startDate'sini al, yoksa bugünün tarihini dön
   const [startDate, setStartDate] = useState<Date>(
     existingTask?.startDate ? new Date(existingTask.startDate) : new Date()
   )
+  // Eğer taskId varsa, o task'in endDate'sini al, yoksa bugünün tarihini 1 gün artırarak dön
   const [endDate, setEndDate] = useState<Date>(
     existingTask?.endDate
       ? new Date(existingTask.endDate)
       : new Date(new Date().setDate(new Date().getDate() + 1))
   )
+  // Start date'i açmak için state
   const [startDateOpen, setStartDateOpen] = useState(false)
+  // End date'i açmak için state
   const [endDateOpen, setEndDateOpen] = useState(false)
+  // Start date'i açmak için dialog'ı açmak için state
   const [isStartDateDialogOpen, setIsStartDateDialogOpen] = useState(false)
+  // End date'i açmak için dialog'ı açmak için state
   const [isEndDateDialogOpen, setIsEndDateDialogOpen] = useState(false)
 
   // Form gönderildiğinde çalışır
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+
+    // Task verilerini oluştur
     const taskData = {
       title,
       description,
