@@ -24,6 +24,7 @@ export default function Column({ column, tasks }: ColumnProps) {
             ref={provided.innerRef}
             className="flex-1 overflow-y-auto min-h-[200px]"
           >
+            {/* Görevleri render et */}
             {tasks.map((task, index) => (
               <Task key={task.id} task={task} index={index} />
             ))}

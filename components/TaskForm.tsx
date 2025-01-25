@@ -185,6 +185,7 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
               className="w-full border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500"
             >
               <SelectValue placeholder="Select team member">
+                {/* Eğer assignee varsa, onu render et */}
                 {assignee && (
                   <div className="flex items-center gap-2">
                     <Avatar className="h-6 w-6">
@@ -206,6 +207,7 @@ export default function TaskForm({ taskId, onClose }: TaskFormProps) {
               </SelectValue>
             </SelectTrigger>
             <SelectContent>
+              {/* Tüm kullanıcıları render et */}
               {users.map((user) => (
                 <SelectItem
                   key={user.id}

@@ -171,6 +171,7 @@ const boardSlice = createSlice({
     // Görevi taşıma işlemi
     moveTask: (
       state,
+      // Taşınacak görevin bilgilerini al
       action: PayloadAction<{
         taskId: string
         source: string
@@ -219,6 +220,7 @@ const boardSlice = createSlice({
     // Yeni görev ekleme
     addTask: (
       state,
+      // Yeni görevin bilgilerini al
       action: PayloadAction<{
         title: string
         description: string
@@ -239,6 +241,7 @@ const boardSlice = createSlice({
     // Görevi güncelleme işlemi
     updateTask: (
       state,
+      // Güncellenecek görevin bilgilerini al
       action: PayloadAction<{
         id: string
         updates: {
