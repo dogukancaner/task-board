@@ -13,6 +13,7 @@ import {
 import TaskForm from './TaskForm'
 
 export default function AddTaskButton() {
+  // Dialog'ın açık olup olmadığını kontrol etmek için state
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   return (

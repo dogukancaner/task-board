@@ -7,9 +7,12 @@ import { moveTask } from '../store/boardSlice'
 import Column from './Column'
 
 export default function Board() {
+  // Board'ı redux store'dan al
   const board = useSelector((state: RootState) => state.board)
+  // Dispatch fonksiyonunu al
   const dispatch = useDispatch()
 
+  // Taşıma işlemini gerçekleştiren fonksiyon
   const onDragEnd = (result: DropResult) => {
     const { destination, source, draggableId } = result
 
