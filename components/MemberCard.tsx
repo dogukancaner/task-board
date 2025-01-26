@@ -11,6 +11,7 @@ export default function MemberCard({ user }: MemberCardProps) {
       <Avatar className="h-10 w-10 border-2 border-white shadow-sm">
         <AvatarImage src={user.avatar} alt={user.name} />
         <AvatarFallback className="bg-blue-100 text-blue-600">
+          {/* Kullanıcı adının ilk harfini al */}
           {user.name[0]}
         </AvatarFallback>
       </Avatar>
