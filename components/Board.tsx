@@ -45,9 +45,11 @@ export default function Board() {
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {board.columnOrder.map((columnId) => {
+          // İd'siyle column'u al
           const column = board.columns[columnId]
+          // Column'daki task'leri id'ye göre al
           const tasks = column.taskIds.map((taskId) => board.tasks[taskId])
-
+          // id'siyle key olarak Column'u render et
           return <Column key={column.id} column={column} tasks={tasks} />
         })}
       </div>
